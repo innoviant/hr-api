@@ -32,6 +32,7 @@ if config.config_file_name is not None:
 
 from core.models import *
 from auth.database import *
+from employees.models import *
 
 target_metadata = core.database.Base.metadata
 

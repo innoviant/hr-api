@@ -1,12 +1,7 @@
-# import uuid
-# from datetime import datetime
-# from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-# from sqlalchemy import select
 
 from auth import current_user
-# from core.database import get_async_session
 from gigachat import GigaChat
 from os import environ
 
@@ -22,7 +17,6 @@ router = APIRouter(
 async def tarot_prediction(req: TarotRequest,
                        user=Depends(current_user)  # untill there is no auth, comment
                        ):
-    print(user)
     if len(req.first) != 3 or len(req.second) != 3:
         raise HTTPException(status_code=400, detail="Please provide 3 cards per each person")
 

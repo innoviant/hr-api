@@ -6,6 +6,7 @@ from gigachat import GigaChat
 from config import APP_META
 from auth.routes import *
 from predictions.routes import router as prediction_router
+from employees.routes import router as employees_router
 
 from os import environ
 
@@ -51,6 +52,10 @@ app.include_router(
 
 app.include_router(
     prediction_router
+)
+
+app.include_router(
+    employees_router
 )
 
 @app.get("/healthcheck")
