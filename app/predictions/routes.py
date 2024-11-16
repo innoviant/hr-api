@@ -10,14 +10,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from gigachat import GigaChat
 from os import environ
 
-from .schemas import TarotRequest, FateMatrixRequest, TarotResponse, FateMatrixResponse
+from .schemas import *
 
 auth_credit = environ.get('AUTH')
 
 router = APIRouter(
     tags=['analysis']
 )
-
 
 @router.post('/tarot', response_model=TarotResponse)
 async def tarot_prediction(req: TarotRequest,
@@ -54,6 +53,22 @@ async def fate_matrix_prediction(req: FateMatrixRequest,
                              матрица сотрудника: {req.second},
                              ничего не говори о субьективности и не критикуй способ отбора кандидатов по матрицам пифагора.
                              просто скажи анализ. Не рисуй таблиц или чего-то что нельзя обернуть в строку.
+                             """)
+        answer = response.choices[0].message.content
+        return TarotResponse(analysis=answer)
+
+@router.post('/concl', response_model=ConclusionResponse)
+async def result_prediction(req: ConclusionRequest,
+                    #    user=Depends(current_user)  # untill there is no auth, comment
+                       ):
+    with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
+        response = giga.chat(f"""Сделай анализ о совместимости кандидата на вакансию
+                             и уже работающим в команде сотрудником по данным анализам карт таро и матрицы пифагора: 
+                             таро: {req.tarot},
+                             матрица: {req.fate_matrix},
+                             ничего не говори о субьективности и не критикуй способ отбора кандидатов по этим параметрам.
+                             просто скажи анализ. Не рисуй таблиц или чего-то что нельзя обернуть в строку.
+                             Ответь кратко - стоит ли брать или нет. Так же предоставь процент уверенности.
                              """)
         answer = response.choices[0].message.content
         return TarotResponse(analysis=answer)
