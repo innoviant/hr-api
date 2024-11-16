@@ -53,7 +53,6 @@ app.include_router(
     prediction_router
 )
 
-
 @app.get("/healthcheck")
 def read_root():
     with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:

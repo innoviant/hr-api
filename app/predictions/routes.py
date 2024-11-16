@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 # from sqlalchemy import select
 
-# from auth import current_user
+from auth import current_user
 # from core.database import get_async_session
 from gigachat import GigaChat
 from os import environ
@@ -20,9 +20,9 @@ router = APIRouter(
 
 @router.post('/tarot', response_model=TarotResponse)
 async def tarot_prediction(req: TarotRequest,
-                    #    user=Depends(current_user)  # untill there is no auth, comment
+                       user=Depends(current_user)  # untill there is no auth, comment
                        ):
-    
+    print(user)
     if len(req.first) != 3 or len(req.second) != 3:
         raise HTTPException(status_code=400, detail="Please provide 3 cards per each person")
 
@@ -40,7 +40,7 @@ async def tarot_prediction(req: TarotRequest,
 
 @router.post('/fate_matrix', response_model=FateMatrixResponse)
 async def fate_matrix_prediction(req: FateMatrixRequest,
-                    #    user=Depends(current_user)  # untill there is no auth, comment
+                       user=Depends(current_user)  # untill there is no auth, comment
                        ):
     
     if len(req.first) != 9 or len(req.second) != 9:
@@ -59,7 +59,7 @@ async def fate_matrix_prediction(req: FateMatrixRequest,
 
 @router.post('/concl', response_model=ConclusionResponse)
 async def result_prediction(req: ConclusionRequest,
-                    #    user=Depends(current_user)  # untill there is no auth, comment
+                       user=Depends(current_user)  # untill there is no auth, comment
                        ):
     with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
         response = giga.chat(f"""Сделай анализ о совместимости кандидата на вакансию
