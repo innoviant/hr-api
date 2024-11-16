@@ -1,3 +1,20 @@
 gigachat
 fastapi
 uvicorn[standard]
+# PyPDF2
+# nltk
+# scikit-learn
+# python-multipart
+fastapi-users[sqlalchemy]
+
+pydantic
+
+sqlalchemy
+alembic
+asyncpg
+sqlmodel
+psycopg2-binary
+
+pytest
+bcrypt
+starlette
