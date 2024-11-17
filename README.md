@@ -14,3 +14,6 @@ How to launch 🚀
 1) Create an .env file, as in provided `.example.env`
 2) Run `docker compose up --build`
 3) All systems go !
+
+
+Was created for `Namix:Code` hackathon 🤘
