@@ -12,10 +12,10 @@ class EmployeeBase(BaseModel):
 
 class EmployeeCreate(EmployeeBase):
     name: str
-    birth_date: datetime
+    birthdate: datetime
 
 
 class EmployeeRead(EmployeeBase):
     name: str
-    birth_date: datetime
+    birthdate: datetime
     ID: int

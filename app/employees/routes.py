@@ -12,8 +12,6 @@ from auth.database import User
 from .models import *
 from .schemas import *
 
-auth_credit = environ.get('AUTH')
-
 router = APIRouter(
     tags=['employees']
 )
@@ -23,7 +21,7 @@ async def add_employee(employee: EmployeeCreate,
                        user=Depends(current_user),  # protected
                        db: AsyncSession=Depends(get_async_session)
                        ):
-    db_link = Employee(name=employee.name, owner_id=user.id)
+    db_link = Employee(name=employee.name, owner_id=user.id, birthdate=employee.birthdate)
     db.add(db_link)
 
     await db.commit()
