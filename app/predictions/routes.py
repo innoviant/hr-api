@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth import current_user
 from gigachat import GigaChat
@@ -15,13 +14,13 @@ router = APIRouter(
 
 @router.post('/tarot', response_model=TarotResponse)
 async def tarot_prediction(req: TarotRequest,
-                       user=Depends(current_user)  # untill there is no auth, comment
+                       user=Depends(current_user)
                        ):
     if len(req.first) != 3 or len(req.second) != 3:
         raise HTTPException(status_code=400, detail="Please provide 3 cards per each person")
 
-    with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
-        response = giga.chat(f"""Сделай анализ о совместимости кандидата на вакансию
+    async with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
+        response = await giga.achat(f"""Сделай анализ о совместимости кандидата на вакансию
                              и уже работающим в команде сотрудником по данным картам таро: 
                              карты кандидата: {req.first[0]}, {req.first[1]}, {req.first[2]}
                              карты сотрудника: {req.second[0]}, {req.second[1]}, {req.second[2]}
@@ -34,14 +33,14 @@ async def tarot_prediction(req: TarotRequest,
 
 @router.post('/fate_matrix', response_model=FateMatrixResponse)
 async def fate_matrix_prediction(req: FateMatrixRequest,
-                       user=Depends(current_user)  # untill there is no auth, comment
+                       user=Depends(current_user)
                        ):
     
     if len(req.first) != 9 or len(req.second) != 9:
         return HTTPException(status_code=400, detail="Please provide 9 numbers per each person")
 
-    with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
-        response = giga.chat(f"""Сделай анализ о совместимости кандидата на вакансию
+    async with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
+        response = await giga.achat(f"""Сделай анализ о совместимости кандидата на вакансию
                              и уже работающим в команде сотрудником по данным матрицам пифагора (матрицы судьбы): 
                              матрица кандидата: {req.first},
                              матрица сотрудника: {req.second},
@@ -53,10 +52,10 @@ async def fate_matrix_prediction(req: FateMatrixRequest,
 
 @router.post('/concl', response_model=ConclusionResponse)
 async def result_prediction(req: ConclusionRequest,
-                       user=Depends(current_user)  # untill there is no auth, comment
+                       user=Depends(current_user)
                        ):
-    with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
-        response = giga.chat(f"""Сделай анализ о совместимости кандидата на вакансию
+    async with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
+        response = await giga.achat(f"""Сделай анализ о совместимости кандидата на вакансию
                              и уже работающим в команде сотрудником по данным анализам карт таро и матрицы пифагора: 
                              таро: {req.tarot},
                              матрица: {req.fate_matrix},

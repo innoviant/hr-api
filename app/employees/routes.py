@@ -1,10 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_async_session
 from auth import current_user
-from gigachat import GigaChat
-from os import environ
 from sqlalchemy import select
 from auth.schemas import UserRead
 from auth.database import User
@@ -56,4 +54,3 @@ async def get_current_user(
                    user=Depends(current_user),  # protected
                     ):
     return user
-

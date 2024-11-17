@@ -59,8 +59,8 @@ app.include_router(
 )
 
 @app.get("/healthcheck")
-def read_root():
-    with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
-        response = giga.chat("Какой сейчас год? Скажи всего одну цифру")
+async def read_root():
+    async with GigaChat(credentials=auth_credit, verify_ssl_certs=False) as giga:
+        response = await giga.achat("Какой сейчас год? Скажи всего одну цифру")
         answer = response.choices[0].message.content
         return {"message": f"Hello, FastAPI! {answer}"}
