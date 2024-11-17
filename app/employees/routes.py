@@ -49,3 +49,11 @@ async def get_users(
     return list(map(UserRead.from_orm, (await db.execute(
         select(User)
     )).scalars().all()))
+
+
+@router.get('/get_current_user', response_model=UserRead)
+async def get_current_user(
+                   user=Depends(current_user),  # protected
+                    ):
+    return user
+
