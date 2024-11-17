@@ -42,10 +42,10 @@ async def get_employees(
 
 
 @router.get('/get_users', response_model=list[UserRead])
-async def get_employees(
-                       user=Depends(current_user),  # protected
-                       db: AsyncSession=Depends(get_async_session)
-                       ):
+async def get_users(
+                   user=Depends(current_user),  # protected
+                   db: AsyncSession=Depends(get_async_session)
+                    ):
     return list(map(UserRead.from_orm, (await db.execute(
         select(User)
     )).scalars().all()))
