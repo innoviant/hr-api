@@ -7,6 +7,7 @@ It performs 👷🏿‍♂️:
 
 Technological advantages:
 - Async database requests 🏃
+- Async Gigachat prompting 🏃
 - Using robust authorization library 🧱
 - Well-structured project 😎
 
